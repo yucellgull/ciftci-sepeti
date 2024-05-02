@@ -5,7 +5,7 @@ const {height,width} = Dimensions.get('window')
 const TypeBox = ({active,item,setCat}:{active:string,item:string,setCat:any}) => {
    // console.log("The title is ",active)
     return(
-        <TouchableOpacity onPress={() => setCat(item)} style={[{flexDirection:'row',alignItems:'center',justifyContent:'center', paddingHorizontal:10,borderRadius:6,height:height*0.044,marginRight:12},item == active ? {backgroundColor:'#e68921'}:{borderColor:'#F0EFF7',borderWidth:1}]}>
+        <TouchableOpacity onPress={() => setCat(item)} style={[{flexDirection:'row',alignItems:'center',justifyContent:'center', paddingHorizontal:10,borderRadius:6,height:height*0.044,marginRight:12},item == active ? {backgroundColor:'#e68921'}:{borderColor:'#F0EFF7',borderWidth:1.3}]}>
             <Text style={[{fontSize:12,color:'#e68921',fontWeight:'600'},item==active && {color:'white'}]}>{item}</Text>
         </TouchableOpacity>
     )
@@ -14,7 +14,7 @@ const TypeBox = ({active,item,setCat}:{active:string,item:string,setCat:any}) =>
 function index() {
     const [category,setCategory] = useState("Birlikte İyi Gider")
     return(
-        <ScrollView style={{width:'100%',backgroundColor:'white',height:height*0.072,flexDirection:'row',paddingVertical:height*0.014,paddingHorizontal:12,borderBottomColor:'grey',borderBottomWidth:20}} showsHorizontalScrollIndicator={false} bounces={true} horizontal={true}>
+        <ScrollView style={{width:'100%',backgroundColor:'white',height:height*0.072,flexDirection:'row',paddingVertical:height*0.014,paddingHorizontal:12,borderBottomColor:'#e68921',borderBottomWidth:2}} showsHorizontalScrollIndicator={false} bounces={true} horizontal={true}>
             {["Birlikte İyi Gider","Çubuk","Kutu","Külah","Çoklu","Bar"].map((item)=>(
                 <TypeBox setCat={setCategory} item={item} active={category}  />
             ))

@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, Dimensions } from "react-native";
 import { Entypo } from '@expo/vector-icons'; 
 import { Product } from "../../models";
+import { useNavigation } from "@react-navigation/native";
 
 
 type producItemType = {
@@ -11,9 +12,11 @@ type producItemType = {
 
 const { height, width } = Dimensions.get("window");
 function index({item,addItemToCart}:producItemType) {
+  const navigation = useNavigation()
   return (
-    <TouchableOpacity
     
+    <TouchableOpacity
+    onPress={()=> navigation.navigate("ProductDetails", {Product:item})}
       style={{
         width: width * 0.285,
         marginTop: 12,
@@ -51,7 +54,7 @@ function index({item,addItemToCart}:producItemType) {
         
         <Text
           style={{
-            color: "#5D3EBD",
+            color: "#e68921",
             fontWeight: "bold",
             fontSize: 12,
             marginLeft:4
@@ -70,7 +73,7 @@ function index({item,addItemToCart}:producItemType) {
               shadowRadius: 3.8,
               shadowOpacity: 0.05,borderColor:'lightgrey',backgroundColor:'white',
          flexDirection:'row',justifyContent:'center',alignItems:'center',width:30,height:30}}>
-        <Entypo name="plus" size={22} color="#5D3EBD" />
+        <Entypo name="plus" size={22} color="#e68921" />
       </TouchableOpacity>
     </TouchableOpacity>
   );
