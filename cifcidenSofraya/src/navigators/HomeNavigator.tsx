@@ -4,10 +4,28 @@ import HomeScreen from "../screens/HomeScreen";
 import { Image, Text,TouchableOpacity } from "react-native";
 import CategoryFilterScreen from "../screens/CategoryFilterScreen";
 import ProductDetailsScreen from "../screens/ProductDetailsScreen"
+import { Entypo, Ionicons, Foundation,MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation, getFocusedRouteNameFromRoute} from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
-function HomeNavigator() {
+function MyStack({navigation,route}) {
+  
+  const tabHiddenRoutes = ["ProductDetails"]
+
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    console.log("Route Name is ", routeName);
+    if (tabHiddenRoutes.includes(routeName)) {
+      console.log("Kapat ", routeName);
+      navigation.setOptions({ tabBarStyle: { display: "none" } });
+    } else {
+      console.log("Aç ", routeName);
+      navigation.setOptions({ tabBarStyle: { display: "true" } });
+    }
+  }, [navigation, route]);
+  
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -48,6 +66,39 @@ function HomeNavigator() {
       <Stack.Screen
        
          options={{
+          headerBackTitleVisible:false,
+          headerTintColor:'white',
+          headerStyle:{backgroundColor:"#FCC656"},
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}
+              style={{ paddingLeft: 8}} > 
+              <Ionicons
+                style={{ marginLeft: 8 }}
+                name="close"
+                size={26}
+                color="white"
+              />
+
+              
+            </TouchableOpacity>
+          ),
+
+          headerTitle:() => (
+            <Text style={{fontWeight:'bold',color:'white',fontSize:16,marginLeft: "45%"}}>
+            Ürün Detayı  </Text>
+          ),
+          headerRight: () => (
+            <TouchableOpacity style={{ paddingRight: 10 }}>
+              <Foundation
+                style={{ marginRight: 8 }}
+                name="heart"
+                size={26}
+                color="white"
+              />
+            </TouchableOpacity>
+          ),
+
+
 
 
          }}
@@ -59,4 +110,8 @@ function HomeNavigator() {
   );
 }
 
-export default HomeNavigator;
+export default function HomeNavigator({navigation,route}){
+  return <MyStack navigation ={navigation} route ={route} />
+
+
+}
