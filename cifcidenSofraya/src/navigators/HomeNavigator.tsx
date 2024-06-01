@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import {
+  Dimensions,
+  SafeAreaView,
+  Text,
+  Image,
+  TextInput,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import HomeScreen from "../screens/HomeScreen";
-import { Image, Text,TouchableOpacity } from "react-native";
+import CartScreen from "../screens/CartScreen"
 import CategoryFilterScreen from "../screens/CategoryFilterScreen";
-import ProductDetailsScreen from "../screens/ProductDetailsScreen"
 import { Entypo, Ionicons, Foundation,MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation, getFocusedRouteNameFromRoute} from "@react-navigation/native";
-
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import logo from "../../assets/logo";
+import ProductDetailsScreen from "../../src/screens/ProductDetailsScreen";
+import { connect } from 'react-redux';
+import { Product } from "../models";
+import * as actions from "../redux/actions/cartActions"
 const Stack = createStackNavigator();
 
 function MyStack({navigation,route}) {

@@ -10,6 +10,7 @@ function RootNavigation() {
 
     const CustomTabBarButton = ({ children }) => {
         return (
+          
           <TouchableOpacity
             style={{
               borderColor: "white",
@@ -29,6 +30,7 @@ function RootNavigation() {
       };
   
     return (
+        
         <Tab.Navigator
         initialRouteName="AnaSayfa"
         screenOptions={{

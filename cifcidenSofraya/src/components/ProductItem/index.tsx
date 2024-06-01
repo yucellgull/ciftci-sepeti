@@ -4,19 +4,18 @@ import { Entypo } from '@expo/vector-icons';
 import { Product } from "../../models";
 import { useNavigation } from "@react-navigation/native";
 
-
-type producItemType = {
-  item:Product;
-  addItemToCart:(a: Product) => void;
+type productItemType = {
+  item: Product;
+  addItemToCart: (a: Product) => void;
 }
 
 const { height, width } = Dimensions.get("window");
-function index({item,addItemToCart}:producItemType) {
-  const navigation = useNavigation()
+
+function Index({ item, addItemToCart }: productItemType) {
+  const navigation = useNavigation();
   return (
-    
     <TouchableOpacity
-    onPress={()=> navigation.navigate("ProductDetails", {Product:item})}
+      onPress={() => navigation.navigate("ProductDetails", { Product: item })}
       style={{
         width: width * 0.285,
         marginTop: 12,
@@ -24,8 +23,7 @@ function index({item,addItemToCart}:producItemType) {
         flexDirection: "column",
         alignItems: "flex-start",
         marginLeft: 12,
-       // backgroundColor:'red',
-        marginBottom:10
+        marginBottom: 10
       }}
     >
       <Image
@@ -40,8 +38,8 @@ function index({item,addItemToCart}:producItemType) {
           uri: item.image,
         }}
       />
-      <View style={{ flexDirection: "row", marginTop: 10,alignItems:'center' }}>
-         <Text
+      <View style={{ flexDirection: "row", marginTop: 10, alignItems: 'center' }}>
+        <Text
           style={{
             textDecorationLine: "line-through",
             color: "#747990",
@@ -51,33 +49,33 @@ function index({item,addItemToCart}:producItemType) {
         >
           <Text>{"\u20BA"}</Text>{item.fiyat}
         </Text>
-        
+
         <Text
           style={{
             color: "#e68921",
             fontWeight: "bold",
             fontSize: 12,
-            marginLeft:4
+            marginLeft: 4
           }}
         >
           <Text>{"\u20BA"}</Text>{item.fiyatIndirimli}
         </Text>
-      
       </View>
-      <Text style={{fontWeight:'600',fontSize:13,marginTop:4}}>{item.name}</Text>
-      <Text style={{color:'#747990', fontSize:12,marginTop:4,fontWeight:'600'}}>{item.miktar}</Text>
-      
+      <Text style={{ fontWeight: '600', fontSize: 13, marginTop: 4 }}>{item.name}</Text>
+      <Text style={{ color: '#747990', fontSize: 12, marginTop: 4, fontWeight: '600' }}>{item.miktar}</Text>
+
       <TouchableOpacity onPress={() => {
-        addItemToCart(item)
-      }} style={{position:'absolute',borderWidth:0.3,right:-10,top:-10,borderRadius:5,
-              shadowRadius: 3.8,
-              shadowOpacity: 0.05,borderColor:'lightgrey',backgroundColor:'white',
-         flexDirection:'row',justifyContent:'center',alignItems:'center',width:30,height:30}}>
+        addItemToCart(item);
+      }} style={{
+        position: 'absolute', borderWidth: 0.3, right: -10, top: -10, borderRadius: 5,
+        shadowRadius: 3.8,
+        shadowOpacity: 0.05, borderColor: 'lightgrey', backgroundColor: 'white',
+        flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: 30, height: 30
+      }}>
         <Entypo name="plus" size={22} color="#e68921" />
       </TouchableOpacity>
     </TouchableOpacity>
   );
 }
 
-
-export default index;
+export default Index;
