@@ -3,6 +3,8 @@ import { View, Text, Image, TouchableOpacity, Dimensions } from "react-native";
 import { Entypo } from '@expo/vector-icons'; 
 import { Product } from "../../models";
 import { useNavigation } from "@react-navigation/native";
+import { connect } from "react-redux";
+import * as actions from "../../redux/actions/cartActions"
 
 type productItemType = {
   item: Product;
@@ -11,7 +13,7 @@ type productItemType = {
 
 const { height, width } = Dimensions.get("window");
 
-function Index({ item, addItemToCart }: productItemType) {
+function index({ item, addItemToCart }: productItemType) {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -77,5 +79,10 @@ function Index({ item, addItemToCart }: productItemType) {
     </TouchableOpacity>
   );
 }
-
-export default Index;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItemToCart: (product:Product) => 
+      dispatch(actions.addToCart({quantity:1,product}))
+  }
+}
+export default connect(null,mapDispatchToProps)(index);

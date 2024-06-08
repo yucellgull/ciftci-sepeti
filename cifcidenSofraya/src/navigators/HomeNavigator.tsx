@@ -22,10 +22,11 @@ import { connect } from 'react-redux';
 import { Product } from "../models";
 import * as actions from "../redux/actions/cartActions"
 const Stack = createStackNavigator();
+const {width,height} = Dimensions.get('window')
 
-function MyStack({navigation,route}) {
+function MyStack({navigation,route,cartItems,clearCart}:{cartItems:{product:Product,quantity:number}[],clearCart:() => void  }) {
   
-  const tabHiddenRoutes = ["ProductDetails"]
+  const tabHiddenRoutes = ["ProductDetails","CartScreen"]
 
   React.useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
@@ -38,6 +39,21 @@ function MyStack({navigation,route}) {
       navigation.setOptions({ tabBarStyle: { display: "true" } });
     }
   }, [navigation, route]);
+
+  const [totalPrice,setTotalPrice] = useState<number>(0)
+  
+  const getProductsPrice = () => {
+    if (cartItems && Array.isArray(cartItems)) {
+      let total = 0;
+      cartItems.forEach(cartItem => {
+        total += cartItem.product.fiyat;
+      });
+      setTotalPrice(total);
+    }
+  };
+  useEffect(() => {
+    getProductsPrice()
+  },[cartItems,navigation])
   
 
   return (
@@ -73,6 +89,24 @@ function MyStack({navigation,route}) {
             >
               Ürünler
             </Text>
+          ),headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('CartScreen')} style={{ width:width*0.22,height:33,backgroundColor:'white',
+              marginRight:width*0.03,borderRadius:9,
+              flexDirection:'row',alignItems:'center'}}>
+
+                <Image style={{width:33,height:33,marginLeft:3}} source={require("../../assets/cart.png")}/>
+                <View style={{flex:1,height:33,justifyContent:'center',alignItems:'center', backgroundColor:'#F3EFFE',borderTopEndRadius:9,borderBottomRightRadius:9}}>
+                <Text style={{color:'FCC656',fontWeight:'bold',fontSize:12}}>
+                 <Text> {"\u20BA"}</Text>
+                 {totalPrice.toFixed(2)}
+                
+                </Text>
+                
+
+                </View>
+              
+              
+            </TouchableOpacity>
           ),
         }}
       />
@@ -120,12 +154,60 @@ function MyStack({navigation,route}) {
          name="ProductDetails"
          component={ProductDetailsScreen}
       />
+      <Stack.Screen 
+        name="CartScreen"
+        component={CartScreen}
+        options={{
+          headerTintColor: "white",
+          headerBackTitleVisible: false,
+          headerStyle: { backgroundColor: "#FCC656" },
+          headerTitle: () => (
+            <Text style={{ marginLeft:'60%',fontWeight: "bold", fontSize: 15, color: "white" }}>
+              Sepetim
+            </Text>
+          ),
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{ paddingLeft: 8 }}
+            >
+              <Ionicons
+                style={{ marginLeft: 4 }}
+                name="close"
+                size={26}
+                color="white"
+              />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={() =>clearCart()} style={{ paddingRight: 10 }}> 
+              <Ionicons style={{marginRight:8}} name="trash" size={24} color="white" />
+            </TouchableOpacity>
+          ),
+        }}
+        
+      />
     </Stack.Navigator>
   );
 }
 
-export default function HomeNavigator({navigation,route}){
-  return <MyStack navigation ={navigation} route ={route} />
+const mapStateToProps = (state) => {
+  return {
+    cartItems: state.cartItems,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    clearCart: () => dispatch(actions.clearCart())
+  }
+}
+
+
+
+function HomeNavigator({ navigation, route,cartItems,clearCart}:{clearCart:() => void}) {
+  return <MyStack navigation={navigation} route={route} cartItems={cartItems} clearCart={clearCart} />;
 
 
 }
+export default connect(mapStateToProps,mapDispatchToProps)(HomeNavigator)

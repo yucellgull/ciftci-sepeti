@@ -1,0 +1,21 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services' // Bu satırı ekleyin
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.yourapp" // Proje ID'nizi buraya yazın
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+    ...
+}
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:28.3.1')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+}

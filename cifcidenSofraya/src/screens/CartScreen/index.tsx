@@ -15,46 +15,40 @@ import { connect } from "react-redux";
 
 const { height, width } = Dimensions.get("window");
 
-function index({
-  cartItems,
-  route
-}: {
-  cartItems: { product: Product; quantity: number }[],route:any;
-}) {
-  //const [cartItems,setCartItems] = useState<Product[]>()
-  const {
-    params: { message },
-  } = route;
+function index({cartItems}:{cartItems:{product:Product, quantity:number}[]}){
 
-  console.log("Zınk route params are ",route.params)
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const getProductsPrice = () => {
     let total = 0;
-    cartItems.forEach((product) => {
-      total += product.product.fiyat;
-      setTotalPrice(total);
-    });
-  };
-  useEffect(() => {
-    getProductsPrice();
-    return (() => {
-      setTotalPrice(0)
+    cartItems.forEach((item) => {
+      total += item.product.fiyat;
+      setTotalPrice(total)
     })
-  }, [cartItems]);
+    cartItems.length ? null : setTotalPrice(0)
+  }
+  useEffect(() => {
+    getProductsPrice()
+
+  },[cartItems])
+
+
+
   return (
     <View style={{flex:1}}>
-          <ScrollView style={{ flex:1}}>
+      <ScrollView style={{ flex:1}}>
       <FlatList
         style={{backgroundColor: "#F5F5F5" }}
         data={cartItems}
-        renderItem={({ item }) => <CartItem product={item} />}
-      />
-      <Text style={{padding:15,fontWeight:'bold',color:'#5D3EBD'}}>Önerilen Ürünler</Text>
-      <ScrollView style={{backgroundColor:'white'}} showsHorizontalScrollIndicator={false} bounces={true} horizontal={true}>
-        {productsGetir.map((item,index) => (
-          <ProductItem index={item.id} item={item} />
+        renderItem={({ item }) => <CartItem product={item.product} quantity ={item.quantity} />}
+      /><Text style={{padding:13,fontWeight:'bold',color:'#FCC656'}}>Önerilen Ürünler</Text>
+      <ScrollView horizontal={true} bounces={true} showsHorizontalScrollIndicator={false}>
+        {productsGetir.map((item,index) =>(
+          <ProductItem key={index} item={item} />
         ))}
+      
+      
       </ScrollView>
+    
 
     </ScrollView>
 
@@ -75,7 +69,7 @@ function index({
             flex: 3,
             borderBottomLeftRadius: 8,
             borderTopLeftRadius: 8,
-            backgroundColor: "#5D3EBD",
+            backgroundColor: "#FCC656",
             height: height * 0.06,
             justifyContent: "center",
             alignItems: "center",
@@ -102,7 +96,7 @@ function index({
         >
           <Text
             style={{
-              color: "#5D3EBD",
+              color: "#FCC656",
               fontWeight: "bold",
               fontSize: 15,
             }}
@@ -119,8 +113,8 @@ function index({
 const mapStateToProps = (state) => {
   const { cartItems } = state;
   return {
-    cartItems: cartItems,
-  };
-};
+    cartItems: cartItems
+  }
+}
 
-export default connect(mapStateToProps, null)(index);
+export default connect(mapStateToProps,null)(index)

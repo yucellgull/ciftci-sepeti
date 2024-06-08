@@ -9,15 +9,16 @@ import {
 } from "react-native";
 import { Product } from "../../models";
 import { connect } from "react-redux";
-import * as actions from "../../redux/actions/cartActions";
+
 const { width, height } = Dimensions.get("window");
 
 type CartItemProps = {
-  product: { product: Product; quantity: number };
-  removeFromCart: (product: Product) => void;
-};
+  product: Product;
+  quantity:number;
+  removeFromCart: (product:Product) => void
+}
 
-function index({ product, removeFromCart }: CartItemProps) {
+function index({ product ,quantity,removeFromCart}: CartItemProps) {
   return (
     <View
       style={{
@@ -51,7 +52,7 @@ function index({ product, removeFromCart }: CartItemProps) {
               borderWidth: 0.4,
               borderColor: "lightgray",
             }}
-            source={{ uri: product.product.image }}
+            source={{ uri: product.image }}
           />
           <View style={{ marginLeft: 8 }}>
             <View>
@@ -62,7 +63,7 @@ function index({ product, removeFromCart }: CartItemProps) {
                   maxWidth: width * 0.44,
                 }}
               >
-                {product.product.name}
+                {product.name}
               </Text>
               <Text
                 style={{
@@ -72,19 +73,19 @@ function index({ product, removeFromCart }: CartItemProps) {
                   marginTop: 3,
                 }}
               >
-                {product.product.miktar}
+                {product.miktar}
               </Text>
             </View>
             <Text
               style={{
-                color: "#5D3EBD",
+                color: "#FCC656",
                 fontWeight: "bold",
                 fontSize: 14,
                 marginTop: 6,
               }}
             >
               <Text>{"\u20BA"}</Text>
-              {product.product.fiyat}
+              {product.fiyat}
             </Text>
           </View>
         </View>
@@ -104,12 +105,12 @@ function index({ product, removeFromCart }: CartItemProps) {
             shadowColor: "gray",
           }}
         >
-          <TouchableOpacity
-            onPress={() => removeFromCart(product.product)}
+          <TouchableOpacity onPress={() => removeFromCart(product)}
+            
             style={{ flex: 1, alignItems: "center" }}
           >
             <Text
-              style={{ fontWeight: "bold", fontSize: 16, color: "#5D3EBD" }}
+              style={{ fontWeight: "bold", fontSize: 16, color: "#FCC656" }}
             >
               -
             </Text>
@@ -117,19 +118,19 @@ function index({ product, removeFromCart }: CartItemProps) {
           <View
             style={{
               flex: 1,
-              backgroundColor: "#5D3EBD",
+              backgroundColor: "#FCC656",
               height: height * 0.04,
               justifyContent: "center",
               alignItems: "center",
             }}
           >
             <Text style={{ color: "white", fontSize: 12, fontWeight: "bold" }}>
-              {product.quantity}
+              {quantity}
             </Text>
           </View>
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text
-              style={{ fontWeight: "bold", fontSize: 14, color: "#5D3EBD" }}
+              style={{ fontWeight: "bold", fontSize: 14, color: "#FCC656" }}
             >
               +
             </Text>
@@ -152,3 +153,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 export default connect(null, mapDispatchToProps)(index);
+
